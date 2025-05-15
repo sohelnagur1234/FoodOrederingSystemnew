@@ -1,4 +1,4 @@
-name: Java CI
+name: Spring Boot CI
 
 on:
   push:
@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout source code
+      - name: Checkout repo
         uses: actions/checkout@v3
 
       - name: Set up JDK 17
@@ -20,13 +20,6 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Compile Java files
-        run: |
-          mkdir -p out
-          find . -name "*.java" > sources.txt
-          javac -d out @sources.txt
+      - name: Build and test with Maven
+        run: mvn clean verify
 
-      - name: Run main class (optional)
-        run: |
-          java -cp out projectfood.FoodOrderingSystemNew
-        if: ${{ success() }}
